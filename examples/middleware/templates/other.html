@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/htmx.org@1.9.2"
+        integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
+        crossorigin="anonymous"></script>
+    <script>
+        htmx.logAll();
+    </script>
+    <title>Other Page</title>
+</head>
+
+<body>
+    {{ block "other" . }}
+    <div id="other-content">
+        {{ if not .HtmxRequest }}
+        <button name="my-new-htmx-request-button" id="new-htmx-request-id" hx-get="other.html"
+            hx-confirm="refresh page?" hx-swap="outerHTML">Generate htmx request</button>
+        {{ else }}
+        <!-- we're passing in the htmxrequest struct we got from the context so we can refer to its values here-->
+        <table>
+            <tr>
+                <th>Trigger: </th>
+                <td>{{ .HtmxRequest.Trigger }}</td>
+            </tr>
+            <tr>
+                <th>Trigger Name: </th>
+                <td>{{ .HtmxRequest.TriggerName }}</td>
+            </tr>
+            <tr>
+                <th>Target: </th>
+                <td>{{ .HtmxRequest.Target }}</td>
+            </tr>
+            <tr>
+                <th>Prompt: </th>
+                <td>{{ .HtmxRequest.Prompt }}</td>
+            </tr>
+            <tr>
+                <th>Current URL: </th>
+                <td>{{ .HtmxRequest.CurrentURL }}</td>
+            </tr>
+            <tr>
+                <th>Boosted: </th>
+                <td>{{ .HtmxRequest.Boosted }}</td>
+            </tr>
+            <tr>
+                <th>History Restore: </th>
+                <td>{{ .HtmxRequest.HistoryRestore }}</td>
+            </tr>
+        </table>
+        {{ end }}
+    </div>
+    {{ end }}
+</body>
+
+
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+{{ block "head" . }}
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/htmx.org@1.9.2"
+        integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
+        crossorigin="anonymous"></script>
+    <script>
+        htmx.logAll();
+    </script>
+    <title>Middleware Demo</title>
+</head>
+{{ end }}
+
+{{ block "body" . }}
+
+<body>
+    <script type="text/javascript">
+        // for our post-swap alert
+        document.body.addEventListener("showMessage", function (evt) {
+            if (evt.detail.level === "info") {
+                alert(evt.detail.message);
+            }
+        });
+    </script>
+    <div id="button-div"><button id="drink-me-button" hx-get="button-push" hx-target="#body-content"
+            name="drink-me-button-name" hx-prompt="are you sure? type something to confirm">Drink me!</button>
+    </div>
+    <!-- set hx-swap to none so our button doesn't get replaced with empty results -->
+    <div id="server-side-alert"><button id="server-side-alert" hx-get="alert" hx-swap="none">Eat me!</button>
+    </div>
+    <div id="body-content"></div>
+</body>
+{{ end }}
+
+
+</html>
