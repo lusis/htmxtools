@@ -40,7 +40,7 @@ func TestParseRequest(t *testing.T) {
 	}
 	for n, tc := range testcases {
 		t.Run(n, func(t *testing.T) {
-			res := parseRequest(tc.httpRequest)
+			res := ParseRequest(tc.httpRequest)
 			if tc.htmxRequest == nil {
 				require.Nil(t, res)
 			} else {
