@@ -9,7 +9,7 @@ import (
 // drop indicates if non-htmx requests should be dropped or not
 func Middleware(next http.Handler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if res := parseRequest(r); res != nil {
+		if res := ParseRequest(r); res != nil {
 			ctx := res.ToContext(r.Context())
 			next.ServeHTTP(w, r.WithContext(ctx))
 			return
@@ -20,7 +20,7 @@ func Middleware(next http.Handler) http.HandlerFunc {
 
 // ParseRequest parses an [http.Request] for any htmx request headers and returns an [HTMXRequest]
 // fields will still have to be checked for empty string at call sites
-func parseRequest(r *http.Request) *HTMXRequest {
+func ParseRequest(r *http.Request) *HTMXRequest {
 	isHTMXRequest := strings.TrimSpace(r.Header.Get(HXRequestHeader.String())) == "true"
 	if !isHTMXRequest {
 		return nil
