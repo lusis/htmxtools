@@ -1,0 +1,26 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+__debug_bin
+
+*.test
+*.out
+.DS_Store
+.vscode/
+.idea/
+dist/
+bin/
+cover.out
+cover.html
+.env
+config.yaml
+.cache/
+go-sqlite3-test-*
+*.db
+data/
+fly.toml
+*.sqlite
