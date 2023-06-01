@@ -21,14 +21,15 @@ func Middleware(next http.Handler) http.HandlerFunc {
 // ParseRequest parses an [http.Request] for any htmx request headers and returns an [HTMXRequest]
 // fields will still have to be checked for empty string at call sites
 func ParseRequest(r *http.Request) *HTMXRequest {
-	isHTMXRequest := strings.TrimSpace(r.Header.Get(HXRequestHeader.String())) == "true"
+	tru := "true"
+	isHTMXRequest := strings.TrimSpace(r.Header.Get(HXRequestHeader.String())) == tru
 	if !isHTMXRequest {
 		return nil
 	}
 	res := &HTMXRequest{
-		Boosted:        strings.TrimSpace(r.Header.Get(BoostedRequest.String())) == "true",
+		Boosted:        strings.TrimSpace(r.Header.Get(BoostedRequest.String())) == tru,
 		CurrentURL:     strings.TrimSpace(r.Header.Get(CurrentURLRequest.String())),
-		HistoryRestore: strings.TrimSpace(r.Header.Get(HistoryRestoreRequest.String())) == "true",
+		HistoryRestore: strings.TrimSpace(r.Header.Get(HistoryRestoreRequest.String())) == tru,
 		Prompt:         strings.TrimSpace(r.Header.Get(PromptRequest.String())),
 		Target:         strings.TrimSpace(r.Header.Get(TargetRequest.String())),
 		TriggerName:    strings.TrimSpace(r.Header.Get(TriggerNameRequest.String())),

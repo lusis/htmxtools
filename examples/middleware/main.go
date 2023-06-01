@@ -63,10 +63,17 @@ func templateMiddleware(w http.ResponseWriter, r *http.Request) {
 func serversideAlert(w http.ResponseWriter, r *http.Request) {
 	if htmxRequest := htmxtools.RequestFromContext(r.Context()); htmxRequest != nil {
 		// we're also going to ensure that this alert link doesn't make it's way into the history
-		w.Header().Set(htmxtools.ReplaceURLResponse.String(), htmxRequest.CurrentURL)
-		w.Header().Set(htmxtools.TriggerResponse.String(), `{"showMessage":{"level" : "info", "message" : "this alert was trigged via the HX-Trigger header"}}`)
+		hxheaders := &htmxtools.HTMXResponse{
+			ReplaceURL: htmxRequest.CurrentURL,
+			Trigger:    `{"showMessage":{"level" : "info", "message" : "this alert was trigged via the HX-Trigger header"}}`,
+		}
+		if err := hxheaders.AddToResponse(w); err != nil {
+			slog.Error(err.Error())
+			return
+		}
 	}
 }
+
 func buttonPush(w http.ResponseWriter, r *http.Request) {
 	htmxRequest := htmxtools.RequestFromContext(r.Context())
 	if htmxRequest != nil {

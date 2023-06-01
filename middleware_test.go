@@ -2,8 +2,10 @@ package htmxtools
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -96,4 +98,17 @@ func TestMiddleware(t *testing.T) {
 	require.NotNil(t, res, "http request result should not be nil")
 	require.NotNil(t, extractedRequest, "request from context should not be nil")
 	require.Equal(t, htmxReq.Boosted, extractedRequest.Boosted)
+}
+
+// addHeaders adds hmtx headers to the provided http request for testing
+func (hr *HTMXResponse) addHeaders(r *http.Request, headers ...map[HTMXRequestHeader]string) error { // nolint: unused
+	for _, h := range headers {
+		for k, v := range h {
+			if strings.TrimSpace(r.Header.Get(k.String())) != "" {
+				return fmt.Errorf("header already set: %s: %s", k, v)
+			}
+			r.Header.Set(k.String(), v)
+		}
+	}
+	return nil
 }
