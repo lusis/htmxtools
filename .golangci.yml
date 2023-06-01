@@ -1,0 +1,48 @@
+run:
+  tests: false
+  skip-dirs-use-default: true
+
+exclude-rules:
+  - path: proto
+  - path: gen
+  - path: _test\.go
+    linters:
+      - errcheck
+
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - goconst
+    - goimports
+    - revive
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - nilerr
+    - gofmt
+    - misspell
+    - nakedret
+    - noctx
+    - predeclared
+    - whitespace
+    - unparam
+    - usestdlibvars
+
+issues:
+  exclude-use-default: false
+  exclude:
+    - Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*printf?|os\.(Un)?Setenv). is not checked
+  exclude-rules:
+    - path: _test\.go
+      linters:
+        - noctx
+
+linters-settings:
+  goimports:
+    local-prefixes: github.com/lusis
+  gofmt:
+    simplify: true
+  nakedret:
+    max-func-lines: 1

@@ -4,8 +4,10 @@ package htmxtools
 type HXSwap int64
 
 const (
-	// SwapInnerHTML - The default, replace the inner html of the target element
-	SwapInnerHTML HXSwap = iota
+	// SwapUnknown is the zero value for the enum
+	SwapUnknown HXSwap = iota
+	// SwapInnerHTML - The default, replace the inner html of the target element - probably no reason to ever set this explicitly
+	SwapInnerHTML
 	// SwapOuterHTML - Replace the entire target element with the response
 	SwapOuterHTML
 	// SwapBeforeBegin - Insert the response before the target element

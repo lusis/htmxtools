@@ -27,6 +27,20 @@ However, unlike the default behaviour, the url bar will show `status.html` and b
 
 _if you feel like the headers aren't working, make sure you actually wrote them to the http response. I make this mistake ALL THE TIME_
 
+There's also a helper if you want for building the headers in a safer way:
+
+```go
+if htmxRequest := htmxtools.RequestFromContext(r.Context()); htmxRequest != nil {
+        hxheaders := &htmxtools.HTMXResponse{
+			ReplaceURL: htmxRequest.CurrentURL,
+            Reswap: htmxtools.SwapOuterHTML,
+		}
+		if err := hxheaders.AddToResponse(w); err != nil {
+			return
+		}
+}
+```
+
 ### Middleware
 ```go
 http.Handle("/", htmxtools.Middleware(mymux))
