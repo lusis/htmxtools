@@ -32,7 +32,7 @@ func main() {
 	mux.HandleFunc("/alert", serversideAlert)
 	mux.HandleFunc("/button-push", buttonPush)
 	mux.HandleFunc("/", templateMiddleware)
-	middleware := htmxtools.Middleware(requestLogger(mux))
+	middleware := htmxtools.WrapFunc(requestLogger(mux))
 	if err := http.ListenAndServe(":3000", middleware); err != nil && err != http.ErrServerClosed {
 		panic(err)
 	}

@@ -75,7 +75,7 @@ func TestMiddleware(t *testing.T) {
 	testHandlerFunc := func(w http.ResponseWriter, r *http.Request) {
 		extractedRequest = RequestFromContext(r.Context())
 	}
-	server := httptest.NewServer(Middleware(http.HandlerFunc(testHandlerFunc)))
+	server := httptest.NewServer(WrapFunc(testHandlerFunc))
 	req, err := http.NewRequest(http.MethodGet, server.URL, nil)
 	require.NoError(t, err, "new request should not error")
 	require.NotNil(t, req, "http request should not be nil")
