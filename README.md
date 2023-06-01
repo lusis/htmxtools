@@ -43,7 +43,11 @@ if htmxRequest := htmxtools.RequestFromContext(r.Context()); htmxRequest != nil 
 
 ### Middleware
 ```go
-http.Handle("/", htmxtools.Middleware(mymux))
+http.Handle("/", htmxtools.Wrap(myhandler))
+```
+or
+```go
+http.Handle("/",htmxtools.WrapFunc(myhandlerfunc))
 ```
 
 This will detect htmx requests and inject the details into the context.
