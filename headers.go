@@ -1,5 +1,11 @@
 package htmxtools
 
+import (
+	"fmt"
+	"net/http"
+	"strings"
+)
+
 // HTMXRequestHeader is a string type
 type HTMXRequestHeader string
 
@@ -69,3 +75,16 @@ const (
 	// https://htmx.org/headers/hx-trigger/
 	TriggerAfterSwapResponse HTMXResponseHeader = hxHeaderPrefix + "Trigger-After-Swap"
 )
+
+// AddHeaders adds the provided htmx headers to the request
+func (hr *HTMXResponse) AddHeaders(r *http.Request, headers ...map[HTMXResponseHeader]string) error {
+	for _, h := range headers {
+		for k, v := range h {
+			if strings.TrimSpace(r.Header.Get(k.String())) != "" {
+				return fmt.Errorf("header already set: %s: %s", k, v)
+			}
+			r.Header.Set(k.String(), v)
+		}
+	}
+	return nil
+}
